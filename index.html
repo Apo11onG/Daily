@@ -1,747 +1,519 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gasan | Байер и Соринг Агент в Китае (Гуанчжоу)</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg-color: #0b0f17;
-            --card-bg: rgba(22, 28, 45, 0.7);
-            --card-border: rgba(255, 255, 255, 0.08);
-            --accent-gold: #e5b869;
-            --accent-gold-hover: #f3cc84;
-            --accent-green: #25d366;
-            --text-main: #f3f4f6;
-            --text-muted: #9ca3af;
-            --input-bg: rgba(15, 23, 42, 0.6);
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gasan | Байер и Соурсинг в Китае</title>
+  <style>
+    :root {
+      --bg-color: #0b0f19;
+      --card-bg: rgba(22, 28, 45, 0.7);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --primary-accent: #00f2fe;
+      --secondary-accent: #4facfe;
+      --text-main: #ffffff;
+      --text-muted: #94a3b8;
+      --success-color: #25d366;
+    }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-            -webkit-tap-highlight-color: transparent;
-        }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
 
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            padding: 20px 12px;
-            background-image: 
-                radial-gradient(circle at 10% 20%, rgba(229, 184, 105, 0.05) 0%, transparent 40%),
-                radial-gradient(circle at 90% 80%, rgba(37, 211, 102, 0.05) 0%, transparent 40%);
-            background-attachment: fixed;
-        }
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      background-image: 
+        radial-gradient(circle at 10% 20%, rgba(79, 172, 254, 0.15) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(0, 242, 254, 0.15) 0%, transparent 40%);
+    }
 
-        .container {
-            width: 100%;
-            max-width: 480px;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            position: relative;
-        }
+    .container {
+      width: 100%;
+      max-width: 480px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
 
-        /* Modal Settings */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(8px);
-            z-index: 100;
-            display: none;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-        .modal-overlay.active {
-            display: flex;
-        }
-        .modal-card {
-            background: #111827;
-            border: 1px solid var(--card-border);
-            border-radius: 20px;
-            padding: 24px;
-            width: 100%;
-            max-width: 420px;
-            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.5);
-        }
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-        .modal-header h3 {
-            font-size: 1.2rem;
-            color: var(--text-main);
-        }
-        .close-modal {
-            background: none;
-            border: none;
-            color: var(--text-muted);
-            font-size: 1.4rem;
-            cursor: pointer;
-        }
+    .profile-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--card-border);
+      border-radius: 24px;
+      padding: 32px 24px;
+      text-align: center;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+      position: relative;
+    }
 
-        /* Profile Card */
-        .profile-card {
-            background: var(--card-bg);
-            backdrop-filter: blur(12px);
-            border: 1px solid var(--card-border);
-            border-radius: 24px;
-            padding: 28px 20px;
-            text-align: center;
-            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
-        }
+    .avatar-wrapper {
+      position: relative;
+      width: 100px;
+      height: 100px;
+      margin: 0 auto 16px;
+      cursor: pointer;
+      user-select: none;
+    }
 
-        .avatar-container {
-            position: relative;
-            width: 100px;
-            height: 100px;
-            margin: 0 auto 16px;
-            cursor: pointer;
-        }
-        .avatar {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid var(--accent-gold);
-            padding: 3px;
-            transition: transform 0.2s;
-        }
-        .avatar:active {
-            transform: scale(0.95);
-        }
-        .verified-badge {
-            position: absolute;
-            bottom: 2px;
-            right: 2px;
-            background: var(--accent-gold);
-            color: #000;
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.75rem;
-            border: 2px solid var(--bg-color);
-            pointer-events: none;
-        }
+    .avatar {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid var(--primary-accent);
+      box-shadow: 0 0 20px rgba(0, 242, 254, 0.3);
+      transition: transform 0.3s ease;
+    }
 
-        .profile-name {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #fff;
-            margin-bottom: 4px;
-            letter-spacing: -0.02em;
-        }
+    .avatar-wrapper:active .avatar {
+      transform: scale(0.95);
+    }
 
-        .profile-title {
-            font-size: 0.9rem;
-            color: var(--accent-gold);
-            font-weight: 600;
-            margin-bottom: 8px;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
+    .profile-name {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+      background: linear-gradient(135deg, #fff 0%, #94a3b8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
 
-        .profile-location {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            margin-bottom: 16px;
-        }
+    .profile-tagline {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+      line-height: 1.4;
+    }
 
-        .profile-bio {
-            font-size: 0.9rem;
-            color: #d1d5db;
-            line-height: 1.5;
-            margin-bottom: 20px;
-        }
+    .social-buttons {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+    }
 
-        /* Quick Action Buttons */
-        .social-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-            margin-bottom: 10px;
-        }
+    .btn-social {
+      flex: 1;
+      padding: 12px 16px;
+      border-radius: 14px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+    }
 
-        .social-btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            padding: 12px;
-            border-radius: 14px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.88rem;
-            transition: all 0.2s ease;
-        }
+    .btn-wa {
+      background: rgba(37, 211, 102, 0.15);
+      color: #25d366;
+      border: 1px solid rgba(37, 211, 102, 0.3);
+    }
 
-        .btn-wa {
-            background: rgba(37, 211, 102, 0.15);
-            color: #25d366;
-            border: 1px solid rgba(37, 211, 102, 0.3);
-        }
-        .btn-wa:hover {
-            background: #25d366;
-            color: #000;
-        }
+    .btn-wa:hover {
+      background: #25d366;
+      color: #000;
+    }
 
-        .btn-ig {
-            background: rgba(225, 48, 108, 0.15);
-            color: #fd5949;
-            border: 1px solid rgba(225, 48, 108, 0.3);
-        }
-        .btn-ig:hover {
-            background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
-            color: #fff;
-        }
+    .btn-ig {
+      background: rgba(225, 48, 108, 0.15);
+      color: #fd5949;
+      border: 1px solid rgba(225, 48, 108, 0.3);
+    }
 
-        /* Services Grid */
-        .section-title {
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: #fff;
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .section-title i {
-            color: var(--accent-gold);
-        }
+    .btn-ig:hover {
+      background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+      color: #fff;
+    }
 
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-        }
+    .section-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
 
-        .service-card {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 16px;
-            padding: 16px;
-            transition: transform 0.2s;
-        }
-        .service-card:hover {
-            transform: translateY(-2px);
-        }
-        .service-icon {
-            font-size: 1.4rem;
-            color: var(--accent-gold);
-            margin-bottom: 8px;
-        }
-        .service-title {
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: #fff;
-            margin-bottom: 4px;
-        }
-        .service-desc {
-            font-size: 0.78rem;
-            color: var(--text-muted);
-            line-height: 1.3;
-        }
+    .services-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
 
-        /* Form Card */
-        .form-card {
-            background: var(--card-bg);
-            backdrop-filter: blur(12px);
-            border: 1px solid var(--card-border);
-            border-radius: 24px;
-            padding: 24px;
-            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
-        }
+    .service-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
 
-        .form-group {
-            margin-bottom: 16px;
-        }
-        .form-label {
-            display: block;
-            font-size: 0.82rem;
-            font-weight: 600;
-            color: #d1d5db;
-            margin-bottom: 6px;
-        }
-        .form-control {
-            width: 100%;
-            background: var(--input-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 12px;
-            padding: 12px 14px;
-            color: #fff;
-            font-size: 0.9rem;
-            outline: none;
-            transition: border-color 0.2s;
-        }
-        .form-control:focus {
-            border-color: var(--accent-gold);
-        }
-        select.form-control {
-            appearance: none;
-            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%9ca3af' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
-            background-repeat: no-repeat;
-            background-position: right 12px center;
-            background-size: 16px;
-        }
+    .service-card:hover {
+      border-color: rgba(0, 242, 254, 0.3);
+      transform: translateY(-2px);
+    }
 
-        .submit-btn {
-            width: 100%;
-            background: linear-gradient(135deg, #e5b869 0%, #c59743 100%);
-            color: #000;
-            font-weight: 700;
-            font-size: 1rem;
-            border: none;
-            border-radius: 14px;
-            padding: 16px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            transition: all 0.2s ease;
-            box-shadow: 0 4px 15px rgba(229, 184, 105, 0.2);
-        }
-        .submit-btn:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 6px 20px rgba(229, 184, 105, 0.3);
-        }
+    .service-info h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
 
-        /* FAQ Accordion */
-        .faq-item {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 14px;
-            margin-bottom: 8px;
-            overflow: hidden;
-        }
-        .faq-header {
-            padding: 14px 16px;
-            font-size: 0.88rem;
-            font-weight: 600;
-            color: #fff;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            cursor: pointer;
-        }
-        .faq-body {
-            padding: 0 16px 14px;
-            font-size: 0.82rem;
-            color: var(--text-muted);
-            line-height: 1.4;
-            display: none;
-        }
-        .faq-item.active .faq-body {
-            display: block;
-        }
-        .faq-item.active .faq-header i {
-            transform: rotate(180deg);
-            color: var(--accent-gold);
-        }
+    .service-info p {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
 
-        .footer {
-            text-align: center;
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            padding: 10px 0 20px;
-        }
+    .btn-order {
+      background: linear-gradient(135deg, var(--secondary-accent), var(--primary-accent));
+      color: #000;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: opacity 0.2s ease;
+      white-space: nowrap;
+    }
 
-        /* Custom Toast */
-        .toast {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%) translateY(100px);
-            background: #10b981;
-            color: #fff;
-            padding: 12px 24px;
-            border-radius: 30px;
-            font-size: 0.88rem;
-            font-weight: 600;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            z-index: 200;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .toast.show {
-            transform: translateX(-50%) translateY(0);
-        }
+    .btn-order:hover {
+      opacity: 0.9;
+    }
 
-        /* Generated Msg Box */
-        .msg-preview-modal {
-            display: none;
-            flex-direction: column;
-            gap: 10px;
-            background: #1f2937;
-            border: 1px solid var(--card-border);
-            border-radius: 14px;
-            padding: 14px;
-            margin-top: 14px;
-        }
-        .msg-preview-text {
-            font-size: 0.8rem;
-            color: #9ca3af;
-            white-space: pre-wrap;
-            background: rgba(0,0,0,0.3);
-            padding: 10px;
-            border-radius: 8px;
-            max-height: 120px;
-            overflow-y: auto;
-        }
-    </style>
+    /* Модальные окна */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(5px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .modal {
+      background: #161c2d;
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 24px;
+      width: 90%;
+      max-width: 400px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+    }
+
+    .modal h2 {
+      font-size: 1.2rem;
+      margin-bottom: 16px;
+    }
+
+    .form-group {
+      margin-bottom: 14px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
+    .form-group input, .form-group textarea {
+      width: 100%;
+      padding: 10px 12px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      color: #fff;
+      font-size: 0.9rem;
+      outline: none;
+    }
+
+    .form-group input:focus, .form-group textarea:focus {
+      border-color: var(--primary-accent);
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+      margin-top: 20px;
+    }
+
+    .btn-cancel {
+      background: transparent;
+      border: 1px solid var(--card-border);
+      color: var(--text-muted);
+      padding: 8px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .btn-submit {
+      background: var(--primary-accent);
+      border: none;
+      color: #000;
+      font-weight: 700;
+      padding: 8px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
 </head>
 <body>
 
-    <div class="container">
-        <!-- Главный профиль -->
-        <div class="profile-card">
-            <div class="avatar-container" onclick="handleAvatarClick()" title="Gasan Profile">
-                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80" alt="Gasan" id="profileImg" class="avatar">
-                <div class="verified-badge"><i class="fa-solid fa-check"></i></div>
-            </div>
-            <h1 class="profile-name">Gasan</h1>
-            <div class="profile-title">Байер & Sourcing Agent в Китае</div>
-            <div class="profile-location">
-                <i class="fa-solid fa-location-dot"></i> Гуанчжоу, Китай ➔ СНГ, Европа & Весь мир
-            </div>
-            <p class="profile-bio">
-                Прямые закупки с фабрик Китая без посредников. Одежда, электроника, автозапчасти, оборудование. Проверка качества и экспресс-доставка.
-            </p>
+  <div class="container">
+    <!-- Шапка профиля -->
+    <div class="profile-card">
+      <div class="avatar-wrapper" onclick="handleAvatarClick()">
+        <img src="https://github.com/gasinchina-biz.png" alt="Gasan" id="profileImg" class="avatar">
+      </div>
+      <h1 class="profile-name">Gasan | China Sourcing</h1>
+      <p class="profile-tagline">Прямой доступ к фабрикам и оптовым рынкам Гуанчжоу и Шэньчжэня</p>
 
-            <div class="social-grid">
-                <a href="https://wa.me/8613129355484" id="directWaBtn" target="_blank" class="social-btn btn-wa">
-                    <i class="fa-brands fa-whatsapp"></i> Написать в WhatsApp
-                </a>
-                <a href="https://instagram.com/gasinchina" id="directIgBtn" target="_blank" class="social-btn btn-ig">
-                    <i class="fa-brands fa-instagram"></i> Instagram
-                </a>
-            </div>
-        </div>
-
-        <!-- Услуги -->
-        <div>
-            <div class="section-title">
-                <i class="fa-solid fa-briefcase"></i> Чем я могу помочь
-            </div>
-            <div class="services-grid">
-                <div class="service-card">
-                    <div class="service-icon"><i class="fa-solid fa-magnifying-glass-dollar"></i></div>
-                    <div class="service-title">Поиск фабрик</div>
-                    <div class="service-desc">Поиск лучших производителей и переговоры о минимальной цене.</div>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon"><i class="fa-solid fa-clipboard-check"></i></div>
-                    <div class="service-title">Проверка товара</div>
-                    <div class="service-desc">Детальный фото и видеоотчет перед отправкой с нашего склада.</div>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon"><i class="fa-solid fa-truck-fast"></i></div>
-                    <div class="service-title">Доставка под ключ</div>
-                    <div class="service-desc">Быстрое карго и официальное таможенное оформление в СНГ и Европу.</div>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon"><i class="fa-solid fa-clone"></i></div>
-                    <div class="service-title">Поиск оригиналов и аналогов</div>
-                    <div class="service-desc">Подбор точно такого же товара по вашей фотографии, образцу или техническому заданию.</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Форма заявки -->
-        <div class="form-card" id="order-form">
-            <div class="section-title" style="margin-bottom: 16px;">
-                <i class="fa-solid fa-paper-plane"></i> Оставить заявку на поиск / расчет
-            </div>
-            <form id="leadForm" onsubmit="handleFormSubmit(event)">
-                <div class="form-group">
-                    <label class="form-label">Ваше имя *</label>
-                    <input type="text" id="clientName" class="form-control" placeholder="Иван" required>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">Категория товара *</label>
-                    <select id="productCategory" class="form-control" required>
-                        <option value="" disabled selected>Выберите категорию...</option>
-                        <option value="Одежда и Обувь">Одежда, обувь, текстиль</option>
-                        <option value="Автозапчасти">Автозапчасти и аксессуары</option>
-                        <option value="Электроника">Электроника и гаджеты</option>
-                        <option value="Оборудование">Коммерческое оборудование / станки</option>
-                        <option value="Мебель и декор">Мебель и товары для дома</option>
-                        <option value="Другое">Другая категория</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">Страна и город назначения *</label>
-                    <input type="text" id="destination" class="form-control" placeholder="Например: Москва, Алматы, Берлин" required>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">Ориентировочный бюджет или объем</label>
-                    <input type="text" id="budget" class="form-control" placeholder="Например: $2,000 или 100 шт.">
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">Ссылка на фото товара / Описание</label>
-                    <textarea id="productDetails" class="form-control" rows="3" placeholder="Вставьте ссылку на фото или опишите, что конкретно нужно найти..."></textarea>
-                </div>
-
-                <button type="submit" class="submit-btn">
-                    <i class="fa-brands fa-whatsapp" style="font-size: 1.2rem;"></i> Отправить заявку в WhatsApp
-                </button>
-            </form>
-
-            <div id="msgPreviewBox" class="msg-preview-modal">
-                <div style="font-size: 0.8rem; color: #fff; font-weight: 600;">Текст заявки сформирован:</div>
-                <div id="msgPreviewText" class="msg-preview-text"></div>
-                <button class="submit-btn" style="background: #25d366; color: #000; padding: 10px;" onclick="copyAndRedirect()">
-                    <i class="fa-regular fa-copy"></i> Скопировать и открыть WhatsApp
-                </button>
-            </div>
-        </div>
-
-        <!-- FAQ -->
-        <div>
-            <div class="section-title">
-                <i class="fa-circle-question fa-solid"></i> Частые вопросы
-            </div>
-            
-            <div class="faq-item" onclick="toggleFaq(this)">
-                <div class="faq-header">
-                    <span>Как происходят взаиморасчеты?</span>
-                    <i class="fa-solid fa-chevron-down"></i>
-                </div>
-                <div class="faq-body">
-                    Мы принимаем оплату удобными международными способами, через банковские переводы и китайские платежные системы (Alipay / WeChat).
-                </div>
-            </div>
-
-            <div class="faq-item" onclick="toggleFaq(this)">
-                <div class="faq-header">
-                    <span>Каковы сроки доставки?</span>
-                    <i class="fa-solid fa-chevron-down"></i>
-                </div>
-                <div class="faq-body">
-                    Авто-доставка в страны СНГ занимает от 12 до 20 дней. Экспресс-авиа доставка — 5-9 дней. В Европу сроки зависят от выбранного логистического маршрута.
-                </div>
-            </div>
-
-            <div class="faq-item" onclick="toggleFaq(this)">
-                <div class="faq-header">
-                    <span>Какая минимальная партия для заказа?</span>
-                    <i class="fa-solid fa-chevron-down"></i>
-                </div>
-                <div class="faq-body">
-                    Мы работаем как со средним бизнесом, так и с оптовыми партиями. Минимальная сумма заказа для поиска и выкупа обычно начинается от $500–1000.
-                </div>
-            </div>
-        </div>
-
-        <!-- Footer -->
-        <div class="footer">
-            © <span id="year"></span> Gasan China Sourcing. Guangzhou, China.<br>
-            All rights reserved.
-        </div>
+      <div class="social-buttons">
+        <a id="directWaBtn" href="#" target="_blank" class="btn-social btn-wa">
+          WhatsApp
+        </a>
+        <a id="directIgBtn" href="#" target="_blank" class="btn-social btn-ig">
+          Instagram
+        </a>
+      </div>
     </div>
 
-    <!-- Модальное окно настроек (скрыто, вход по тройному клику на фото + пароль) -->
-    <div class="modal-overlay" id="settingsModal">
-        <div class="modal-card">
-            <div class="modal-header">
-                <h3><i class="fa-solid fa-sliders"></i> Панель управления</h3>
-                <button class="close-modal" onclick="closeSettings()">&times;</button>
-            </div>
-            <div class="form-group">
-                <label class="form-label">Привязанный номер WhatsApp (Зафиксирован)</label>
-                <input type="text" class="form-control" value="8613129355484" disabled style="opacity: 0.6; cursor: not-allowed;">
-            </div>
-            <div class="form-group">
-                <label class="form-label">Загрузить фото профиля с устройства</label>
-                <input type="file" id="settingFileImg" class="form-control" accept="image/*" onchange="uploadLocalPhoto(event)">
-            </div>
-            <div class="form-group">
-                <label class="form-label">Или ссылка на фото (URL)</label>
-                <input type="text" id="settingPhotoUrl" class="form-control" placeholder="https://...">
-            </div>
-            <div class="form-group">
-                <label class="form-label">Ссылка на Instagram</label>
-                <input type="text" id="settingIg" class="form-control" placeholder="https://instagram.com/gasinchina">
-            </div>
-            <div class="form-group" style="border-top: 1px solid var(--card-border); padding-top: 12px;">
-                <label class="form-label">Новый пароль админа</label>
-                <input type="password" id="settingPassword" class="form-control" placeholder="Введите новый пароль">
-            </div>
-            <button class="submit-btn" onclick="saveSettings()">Сохранить настройки</button>
-        </div>
-    </div>
-
-    <!-- Toast Notification -->
-    <div class="toast" id="toast">
-        <i class="fa-solid fa-circle-check"></i> <span id="toastMsg">Успешно сохранено!</span>
-    </div>
-
-    <script>
-        document.getElementById('year').textContent = new Date().getFullYear();
-
-        // Постоянный зафиксированный номер
-        const currentPhone = '8613129355484';
-
-        let currentIg = localStorage.getItem('gasan_ig') || 'https://instagram.com/gasinchina';
-        let currentPhoto = localStorage.getItem('gasan_photo') || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80';
-        let adminPassword = localStorage.getItem('gasan_admin_pwd') || '212445';
+    <!-- Услуги -->
+    <div>
+      <div class="section-title">Услуги и байинг</div>
+      <div class="services-grid">
         
-        let generatedWaUrl = '';
-        let generatedText = '';
+        <div class="service-card">
+          <div class="service-info">
+            <h3>Поиск и выкуп товаров</h3>
+            <p>1688, Taobao, фабрики без посредников</p>
+          </div>
+          <button class="btn-order" onclick="openOrderModal('Поиск и выкуп товаров')">Заказать</button>
+        </div>
 
-        function applySettings() {
-            document.getElementById('directWaBtn').href = `https://wa.me/${currentPhone}`;
-            document.getElementById('directIgBtn').href = currentIg;
-            document.getElementById('profileImg').src = currentPhoto;
-        }
-        applySettings();
+        <div class="service-card">
+          <div class="service-info">
+            <h3>Инспекция и проверка качества</h3>
+            <p>Фото/видео отчет со склада в Гуанчжоу</p>
+          </div>
+          <button class="btn-order" onclick="openOrderModal('Инспекция и проверка качества')">Заказать</button>
+        </div>
 
-        // Логика тройного клика по аватарке для входа в настройки
-        let avatarClickCount = 0;
-        let avatarClickTimer = null;
+        <div class="service-card">
+          <div class="service-info">
+            <h3>Логистика и доставка карго</h3>
+            <p>Авиа, авто и ж/д доставка в СНГ</p>
+          </div>
+          <button class="btn-order" onclick="openOrderModal('Логистика и доставка карго')">Заказать</button>
+        </div>
 
-        function handleAvatarClick() {
-            avatarClickCount++;
-            if (avatarClickTimer) clearTimeout(avatarClickTimer);
+        <div class="service-card">
+          <div class="service-info">
+            <h3>Поиск оригиналов и аналогов</h3>
+            <p>Одежда, автозапчасти, электроника</p>
+          </div>
+          <button class="btn-order" onclick="openOrderModal('Поиск оригиналов и аналогов')">Заказать</button>
+        </div>
 
-            if (avatarClickCount === 3) {
-                avatarClickCount = 0;
-                openSettingsWithAuth();
-            } else {
-                avatarClickTimer = setTimeout(() => {
-                    avatarClickCount = 0;
-                }, 800);
-            }
-        }
+      </div>
+    </div>
+  </div>
 
-        function openSettingsWithAuth() {
-            const pwd = prompt('Введите пароль администратора:');
-            if (pwd === adminPassword) {
-                document.getElementById('settingIg').value = currentIg;
-                document.getElementById('settingPhotoUrl').value = currentPhoto;
-                document.getElementById('settingPassword').value = '';
-                document.getElementById('settingsModal').classList.add('active');
-            } else if (pwd !== null) {
-                alert('Неверный пароль!');
-            }
-        }
+  <!-- Модалка заказа -->
+  <div class="modal-overlay" id="orderModal">
+    <div class="modal">
+      <h2>Оформить заявку</h2>
+      <div class="form-group">
+        <label>Выбранная услуга:</label>
+        <input type="text" id="modalServiceName" readonly>
+      </div>
+      <div class="form-group">
+        <label>Что вас интересует? (описание товара/задачи)</label>
+        <textarea id="modalDetails" rows="3" placeholder="Например: Поиск запчастей для BMW E60..."></textarea>
+      </div>
+      <div class="modal-actions">
+        <button class="btn-cancel" onclick="closeOrderModal()">Отмена</button>
+        <button class="btn-submit" onclick="sendOrderToWhatsApp()">Отправить в WA</button>
+      </div>
+    </div>
+  </div>
 
-        function closeSettings() {
-            document.getElementById('settingsModal').classList.remove('active');
-        }
+  <!-- Модалка входа в настройки -->
+  <div class="modal-overlay" id="authModal">
+    <div class="modal">
+      <h2>Панель управления</h2>
+      <div class="form-group">
+        <label>Введите пароль администратора:</label>
+        <input type="password" id="adminPasswordInput" placeholder="******">
+      </div>
+      <div class="modal-actions">
+        <button class="btn-cancel" onclick="closeAuthModal()">Отмена</button>
+        <button class="btn-submit" onclick="checkAdminPassword()">Войти</button>
+      </div>
+    </div>
+  </div>
 
-        function uploadLocalPhoto(event) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    currentPhoto = e.target.result;
-                    document.getElementById('settingPhotoUrl').value = '';
-                };
-                reader.readAsDataURL(file);
-            }
-        }
+  <!-- Модалка настроек -->
+  <div class="modal-overlay" id="settingsModal">
+    <div class="modal">
+      <h2>Настройки профиля</h2>
+      <div class="form-group">
+        <label>Ссылка на фото профиля (URL):</label>
+        <input type="text" id="settingPhotoUrl">
+      </div>
+      <div class="form-group">
+        <label>Номер WhatsApp (без +):</label>
+        <input type="text" id="settingPhone">
+      </div>
+      <div class="form-group">
+        <label>Ссылка на Instagram:</label>
+        <input type="text" id="settingIg">
+      </div>
+      <div class="modal-actions">
+        <button class="btn-cancel" onclick="closeSettingsModal()">Отмена</button>
+        <button class="btn-submit" onclick="saveSettings()">Сохранить</button>
+      </div>
+    </div>
+  </div>
 
-        function saveSettings() {
-            const igInput = document.getElementById('settingIg').value.trim();
-            const photoUrlInput = document.getElementById('settingPhotoUrl').value.trim();
-            const newPassword = document.getElementById('settingPassword').value.trim();
+  <script>
+    // Конфигурация
+    const currentPhone = '8613129355484';
+    let currentIg = localStorage.getItem('gasan_ig') || 'https://instagram.com/gasinchina';
+    let currentPhoto = localStorage.getItem('gasan_photo') || 'https://github.com/gasinchina-biz.png';
+    let adminPassword = localStorage.getItem('gasan_admin_pwd') || '212445';
 
-            if (igInput) {
-                currentIg = igInput;
-                localStorage.setItem('gasan_ig', currentIg);
-            }
-            if (photoUrlInput) {
-                currentPhoto = photoUrlInput;
-                localStorage.setItem('gasan_photo', currentPhoto);
-            } else if (currentPhoto) {
-                localStorage.setItem('gasan_photo', currentPhoto);
-            }
-            if (newPassword) {
-                adminPassword = newPassword;
-                localStorage.setItem('gasan_admin_pwd', adminPassword);
-            }
+    let selectedService = '';
 
-            applySettings();
-            closeSettings();
-            showToast('Настройки успешно обновлены!');
-        }
+    function applySettings() {
+      document.getElementById('directWaBtn').href = `https://wa.me/${currentPhone}`;
+      document.getElementById('directIgBtn').href = currentIg;
+      document.getElementById('profileImg').src = currentPhoto;
+    }
+    applySettings();
 
-        function toggleFaq(element) {
-            element.classList.toggle('active');
-        }
+    // Логика тройного клика по аватарке
+    let avatarClickCount = 0;
+    let avatarClickTimer = null;
 
-        function showToast(text) {
-            const toast = document.getElementById('toast');
-            document.getElementById('toastMsg').textContent = text;
-            toast.classList.add('show');
-            setTimeout(() => toast.classList.remove('show'), 3000);
-        }
+    function handleAvatarClick() {
+      avatarClickCount++;
+      if (avatarClickTimer) clearTimeout(avatarClickTimer);
 
-        function handleFormSubmit(e) {
-            e.preventDefault();
+      if (avatarClickCount === 3) {
+        avatarClickCount = 0;
+        document.getElementById('authModal').classList.add('active');
+      } else {
+        avatarClickTimer = setTimeout(() => {
+          avatarClickCount = 0;
+        }, 1000);
+      }
+    }
 
-            const name = document.getElementById('clientName').value.trim();
-            const category = document.getElementById('productCategory').value;
-            const dest = document.getElementById('destination').value.trim();
-            const budget = document.getElementById('budget').value.trim() || 'Не указан';
-            const details = document.getElementById('productDetails').value.trim() || 'Без описания';
+    function closeAuthModal() {
+      document.getElementById('authModal').classList.remove('active');
+      document.getElementById('adminPasswordInput').value = '';
+    }
 
-            generatedText = `Здравствуйте, Гасан!\n\n` +
-                            `Заявка на поиск и расчет товара с сайта:\n` +
-                            `👤 Имя: ${name}\n` +
-                            `📦 Категория: ${category}\n` +
-                            `📍 Направление: ${dest}\n` +
-                            `💰 Бюджет/Объем: ${budget}\n` +
-                            `📝 Детали: ${details}`;
+    function checkAdminPassword() {
+      const pwd = document.getElementById('adminPasswordInput').value;
+      if (pwd === adminPassword) {
+        closeAuthModal();
+        openSettingsModal();
+      } else {
+        alert('Неверный пароль!');
+      }
+    }
 
-            const encodedText = encodeURIComponent(generatedText);
-            generatedWaUrl = `https://wa.me/${currentPhone}?text=${encodedText}`;
+    function openSettingsModal() {
+      document.getElementById('settingPhotoUrl').value = currentPhoto;
+      document.getElementById('settingPhone').value = currentPhone;
+      document.getElementById('settingIg').value = currentIg;
+      document.getElementById('settingsModal').classList.add('active');
+    }
 
-            document.getElementById('msgPreviewText').textContent = generatedText;
-            document.getElementById('msgPreviewBox').style.display = 'flex';
+    function closeSettingsModal() {
+      document.getElementById('settingsModal').classList.remove('active');
+    }
 
-            window.open(generatedWaUrl, '_blank');
-        }
+    function saveSettings() {
+      const newPhoto = document.getElementById('settingPhotoUrl').value.trim();
+      const newIg = document.getElementById('settingIg').value.trim();
 
-        function copyAndRedirect() {
-            navigator.clipboard.writeText(generatedText).then(() => {
-                showToast('Текст скопирован!');
-                setTimeout(() => {
-                    window.open(`https://wa.me/${currentPhone}`, '_blank');
-                }, 500);
-            }).catch(() => {
-                window.open(generatedWaUrl, '_blank');
-            });
-        }
-    </script>
+      if (newPhoto) {
+        currentPhoto = newPhoto;
+        localStorage.setItem('gasan_photo', currentPhoto);
+      }
+      if (newIg) {
+        currentIg = newIg;
+        localStorage.setItem('gasan_ig', currentIg);
+      }
+
+      applySettings();
+      closeSettingsModal();
+      alert('Настройки успешно сохранены!');
+    }
+
+    // Логика заказа
+    function openOrderModal(serviceName) {
+      selectedService = serviceName;
+      document.getElementById('modalServiceName').value = serviceName;
+      document.getElementById('orderModal').classList.add('active');
+    }
+
+    function closeOrderModal() {
+      document.getElementById('orderModal').classList.remove('active');
+      document.getElementById('modalDetails').value = '';
+    }
+
+    function sendOrderToWhatsApp() {
+      const details = document.getElementById('modalDetails').value.trim();
+      let text = `Здравствуйте! Меня интересует услуга: *${selectedService}*.`;
+      if (details) {
+        text += `\n\nДетали запроса: ${details}`;
+      }
+      
+      const waUrl = `https://wa.me/${currentPhone}?text=${encodeURIComponent(text)}`;
+      window.open(waUrl, '_blank');
+      closeOrderModal();
+    }
+  </script>
 </body>
 </html>
