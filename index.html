@@ -434,9 +434,9 @@
 <body>
 
     <div class="container">
-        <!-- Кнопка настроек для владельца сайта -->
-        <button class="settings-btn" onclick="openSettings()" title="Настройки сайта">
-            <i class="fa-solid fa-gear"></i>
+        <!-- Кнопка настроек владельца (защищена паролем) -->
+        <button class="settings-btn" onclick="openSettingsWithAuth()" title="Панель администратора">
+            <i class="fa-solid fa-lock"></i>
         </button>
 
         <!-- Главный профиль -->
@@ -594,25 +594,29 @@
     <div class="modal-overlay" id="settingsModal">
         <div class="modal-card">
             <div class="modal-header">
-                <h3><i class="fa-solid fa-sliders"></i> Настройки профиля</h3>
+                <h3><i class="fa-solid fa-sliders"></i> Панель управления</h3>
                 <button class="close-modal" onclick="closeSettings()">&times;</button>
             </div>
             <div class="form-group">
                 <label class="form-label">Номер WhatsApp Business (без знака +)</label>
-                <input type="text" id="settingPhone" class="form-control" placeholder="Например: 8613800000000 или 994500000000">
-                <span style="font-size: 0.72rem; color: var(--text-muted); display: block; margin-top: 4px;">Указывайте номер строго с кодом страны, без плюсов и дефисов.</span>
+                <input type="text" id="settingPhone" class="form-control" placeholder="Например: 8613800000000">
+                <span style="font-size: 0.72rem; color: var(--text-muted); display: block; margin-top: 4px;">Строго цифрами без плюсов и пробелов.</span>
             </div>
             <div class="form-group">
                 <label class="form-label">Загрузить фото профиля с устройства</label>
                 <input type="file" id="settingFileImg" class="form-control" accept="image/*" onchange="uploadLocalPhoto(event)">
             </div>
             <div class="form-group">
-                <label class="form-label">Или вставьте ссылку на аватарку (URL)</label>
+                <label class="form-label">Или ссылка на фото (URL)</label>
                 <input type="text" id="settingPhotoUrl" class="form-control" placeholder="https://...">
             </div>
             <div class="form-group">
-                <label class="form-label">Ссылка на ваш Instagram</label>
+                <label class="form-label">Ссылка на Instagram</label>
                 <input type="text" id="settingIg" class="form-control" placeholder="https://instagram.com/gasinchina">
+            </div>
+            <div class="form-group" style="border-top: 1px solid var(--card-border); padding-top: 12px;">
+                <label class="form-label">Новый пароль админа</label>
+                <input type="password" id="settingPassword" class="form-control" placeholder="Введите новый пароль">
             </div>
             <button class="submit-btn" onclick="saveSettings()">Сохранить настройки</button>
         </div>
@@ -624,12 +628,13 @@
     </div>
 
     <script>
-        // Инициализация при загрузке
         document.getElementById('year').textContent = new Date().getFullYear();
 
         let currentPhone = localStorage.getItem('gasan_wa_phone') || '8613000000000';
         let currentIg = localStorage.getItem('gasan_ig') || 'https://instagram.com/gasinchina';
         let currentPhoto = localStorage.getItem('gasan_photo') || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80';
+        let adminPassword = localStorage.getItem('gasan_admin_pwd') || '1234';
+        
         let generatedWaUrl = '';
         let generatedText = '';
 
@@ -640,19 +645,24 @@
         }
         applySettings();
 
-        // Открытие/закрытие настроек
-        function openSettings() {
-            document.getElementById('settingPhone').value = currentPhone;
-            document.getElementById('settingIg').value = currentIg;
-            document.getElementById('settingPhotoUrl').value = currentPhoto;
-            document.getElementById('settingsModal').classList.add('active');
+        // Авторизация перед открытием настроек
+        function openSettingsWithAuth() {
+            const pwd = prompt('Введите пароль администратора:');
+            if (pwd === adminPassword) {
+                document.getElementById('settingPhone').value = currentPhone;
+                document.getElementById('settingIg').value = currentIg;
+                document.getElementById('settingPhotoUrl').value = currentPhoto;
+                document.getElementById('settingPassword').value = '';
+                document.getElementById('settingsModal').classList.add('active');
+            } else if (pwd !== null) {
+                alert('Неверный пароль!');
+            }
         }
 
         function closeSettings() {
             document.getElementById('settingsModal').classList.remove('active');
         }
 
-        // Загрузка фото с локального диска
         function uploadLocalPhoto(event) {
             const file = event.target.files[0];
             if (file) {
@@ -669,6 +679,7 @@
             const phoneInput = document.getElementById('settingPhone').value.replace(/[^0-9]/g, '');
             const igInput = document.getElementById('settingIg').value.trim();
             const photoUrlInput = document.getElementById('settingPhotoUrl').value.trim();
+            const newPassword = document.getElementById('settingPassword').value.trim();
 
             if (phoneInput) {
                 currentPhone = phoneInput;
@@ -684,18 +695,20 @@
             } else if (currentPhoto) {
                 localStorage.setItem('gasan_photo', currentPhoto);
             }
+            if (newPassword) {
+                adminPassword = newPassword;
+                localStorage.setItem('gasan_admin_pwd', adminPassword);
+            }
 
             applySettings();
             closeSettings();
             showToast('Настройки успешно обновлены!');
         }
 
-        // Переключение FAQ
         function toggleFaq(element) {
             element.classList.toggle('active');
         }
 
-        // Уведомление
         function showToast(text) {
             const toast = document.getElementById('toast');
             document.getElementById('toastMsg').textContent = text;
@@ -703,7 +716,6 @@
             setTimeout(() => toast.classList.remove('show'), 3000);
         }
 
-        // Обработка формы
         function handleFormSubmit(e) {
             e.preventDefault();
 
@@ -711,30 +723,28 @@
             const category = document.getElementById('productCategory').value;
             const dest = document.getElementById('destination').value.trim();
             const budget = document.getElementById('budget').value.trim() || 'Не указан';
-            const details = document.getElementById('productDetails').value.trim() || 'Без дополнительного описания';
+            const details = document.getElementById('productDetails').value.trim() || 'Без описания';
 
             generatedText = `Здравствуйте, Гасан!\n\n` +
                             `Заявка на поиск и расчет товара с сайта:\n` +
                             `👤 Имя: ${name}\n` +
                             `📦 Категория: ${category}\n` +
-                            `📍 Направление доставки: ${dest}\n` +
+                            `📍 Направление: ${dest}\n` +
                             `💰 Бюджет/Объем: ${budget}\n` +
-                            `📝 Описание/Ссылка: ${details}`;
+                            `📝 Детали: ${details}`;
 
             const encodedText = encodeURIComponent(generatedText);
             generatedWaUrl = `https://wa.me/${currentPhone}?text=${encodedText}`;
 
-            // Отобразить блок предосмотра
             document.getElementById('msgPreviewText').textContent = generatedText;
             document.getElementById('msgPreviewBox').style.display = 'flex';
 
-            // Попытаться сразу перенаправить
             window.open(generatedWaUrl, '_blank');
         }
 
         function copyAndRedirect() {
             navigator.clipboard.writeText(generatedText).then(() => {
-                showToast('Текст скопирован в буфер!');
+                showToast('Текст скопирован!');
                 setTimeout(() => {
                     window.open(`https://wa.me/${currentPhone}`, '_blank');
                 }, 500);
