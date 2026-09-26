@@ -50,29 +50,6 @@
             position: relative;
         }
 
-        /* Settings Gear Icon */
-        .settings-btn {
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--card-border);
-            color: var(--text-muted);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            z-index: 10;
-            transition: all 0.3s ease;
-        }
-        .settings-btn:hover {
-            color: var(--accent-gold);
-            border-color: var(--accent-gold);
-        }
-
         /* Modal Settings */
         .modal-overlay {
             position: fixed;
@@ -134,6 +111,7 @@
             width: 100px;
             height: 100px;
             margin: 0 auto 16px;
+            cursor: pointer;
         }
         .avatar {
             width: 100%;
@@ -142,6 +120,10 @@
             object-fit: cover;
             border: 2px solid var(--accent-gold);
             padding: 3px;
+            transition: transform 0.2s;
+        }
+        .avatar:active {
+            transform: scale(0.95);
         }
         .verified-badge {
             position: absolute;
@@ -157,6 +139,7 @@
             justify-content: center;
             font-size: 0.75rem;
             border: 2px solid var(--bg-color);
+            pointer-events: none;
         }
 
         .profile-name {
@@ -434,14 +417,9 @@
 <body>
 
     <div class="container">
-        <!-- Кнопка настроек владельца (защищена паролем) -->
-        <button class="settings-btn" onclick="openSettingsWithAuth()" title="Панель администратора">
-            <i class="fa-solid fa-lock"></i>
-        </button>
-
         <!-- Главный профиль -->
         <div class="profile-card">
-            <div class="avatar-container">
+            <div class="avatar-container" onclick="handleAvatarClick()" title="Gasan Profile">
                 <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80" alt="Gasan" id="profileImg" class="avatar">
                 <div class="verified-badge"><i class="fa-solid fa-check"></i></div>
             </div>
@@ -455,7 +433,7 @@
             </p>
 
             <div class="social-grid">
-                <a href="#" id="directWaBtn" target="_blank" class="social-btn btn-wa">
+                <a href="https://wa.me/8613129355484" id="directWaBtn" target="_blank" class="social-btn btn-wa">
                     <i class="fa-brands fa-whatsapp"></i> Написать в WhatsApp
                 </a>
                 <a href="https://instagram.com/gasinchina" id="directIgBtn" target="_blank" class="social-btn btn-ig">
@@ -487,7 +465,8 @@
                 </div>
                 <div class="service-card">
                     <div class="service-icon"><i class="fa-solid fa-handshake"></i></div>
-                    <div class="service-desc">Оперативный выкуп позиций с китайских внутренних рынков и фабрик.</div>
+                    <div class="service-title">Выкуп 1688 / Taobao</div>
+                    <div class="service-desc">Оперативный выкуп позиций с китайских внутренних площадок.</div>
                 </div>
             </div>
         </div>
@@ -523,7 +502,7 @@
 
                 <div class="form-group">
                     <label class="form-label">Ориентировочный бюджет или объем</label>
-                    <input type="text" id="budget" class="form-control" placeholder="Например: 1 или 100 шт.">
+                    <input type="text" id="budget" class="form-control" placeholder="Например: $2,000 или 100 шт.">
                 </div>
 
                 <div class="form-group">
@@ -567,7 +546,7 @@
                     <i class="fa-solid fa-chevron-down"></i>
                 </div>
                 <div class="faq-body">
-                    Авто-доставка в страны СНГ занимает от 20 до 25 дней. Экспресс-авиа доставка — 5-9 дней. В Европу сроки зависят от выбранного логистического маршрута.
+                    Авто-доставка в страны СНГ занимает от 12 до 20 дней. Экспресс-авиа доставка — 5-9 дней. В Европу сроки зависят от выбранного логистического маршрута.
                 </div>
             </div>
 
@@ -589,7 +568,7 @@
         </div>
     </div>
 
-    <!-- Модальное окно настроек байера -->
+    <!-- Модальное окно настроек (скрыто, вход по тройному клику на фото + пароль) -->
     <div class="modal-overlay" id="settingsModal">
         <div class="modal-card">
             <div class="modal-header">
@@ -597,9 +576,8 @@
                 <button class="close-modal" onclick="closeSettings()">&times;</button>
             </div>
             <div class="form-group">
-                <label class="form-label">Номер WhatsApp Business (без знака +)</label>
-                <input type="text" id="settingPhone" class="form-control" placeholder="Например: 8613800000000">
-                <span style="font-size: 0.72rem; color: var(--text-muted); display: block; margin-top: 4px;">Строго цифрами без плюсов и пробелов.</span>
+                <label class="form-label">Привязанный номер WhatsApp (Зафиксирован)</label>
+                <input type="text" class="form-control" value="8613129355484" disabled style="opacity: 0.6; cursor: not-allowed;">
             </div>
             <div class="form-group">
                 <label class="form-label">Загрузить фото профиля с устройства</label>
@@ -629,10 +607,12 @@
     <script>
         document.getElementById('year').textContent = new Date().getFullYear();
 
-        let currentPhone = localStorage.getItem('gasan_wa_phone') || '8613000000000';
+        // 1. Постоянный зафиксированный номер
+        const currentPhone = '8613129355484';
+
         let currentIg = localStorage.getItem('gasan_ig') || 'https://instagram.com/gasinchina';
         let currentPhoto = localStorage.getItem('gasan_photo') || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80';
-        let adminPassword = localStorage.getItem('gasan_admin_pwd') || '1234';
+        let adminPassword = localStorage.getItem('gasan_admin_pwd') || '212445';
         
         let generatedWaUrl = '';
         let generatedText = '';
@@ -644,11 +624,27 @@
         }
         applySettings();
 
-        // Авторизация перед открытием настроек
+        // Логика тройного клика по аватарке для входа в настройки
+        let avatarClickCount = 0;
+        let avatarClickTimer = null;
+
+        function handleAvatarClick() {
+            avatarClickCount++;
+            if (avatarClickTimer) clearTimeout(avatarClickTimer);
+
+            if (avatarClickCount === 3) {
+                avatarClickCount = 0;
+                openSettingsWithAuth();
+            } else {
+                avatarClickTimer = setTimeout(() => {
+                    avatarClickCount = 0;
+                }, 800);
+            }
+        }
+
         function openSettingsWithAuth() {
             const pwd = prompt('Введите пароль администратора:');
             if (pwd === adminPassword) {
-                document.getElementById('settingPhone').value = currentPhone;
                 document.getElementById('settingIg').value = currentIg;
                 document.getElementById('settingPhotoUrl').value = currentPhoto;
                 document.getElementById('settingPassword').value = '';
@@ -675,15 +671,10 @@
         }
 
         function saveSettings() {
-            const phoneInput = document.getElementById('settingPhone').value.replace(/[^0-9]/g, '');
             const igInput = document.getElementById('settingIg').value.trim();
             const photoUrlInput = document.getElementById('settingPhotoUrl').value.trim();
             const newPassword = document.getElementById('settingPassword').value.trim();
 
-            if (phoneInput) {
-                currentPhone = phoneInput;
-                localStorage.setItem('gasan_wa_phone', currentPhone);
-            }
             if (igInput) {
                 currentIg = igInput;
                 localStorage.setItem('gasan_ig', currentIg);
