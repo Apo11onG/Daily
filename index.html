@@ -1,510 +1,746 @@
 <!DOCTYPE html>
-<html lang="ru" class="dark">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Гасан | Байер & Доставка из Китая 🇨🇳</title>
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gasan | Байер и Соринг Агент в Китае (Гуанчжоу)</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        brand: {
-                            gold: '#F59E0B',
-                            goldHover: '#D97706',
-                            cyan: '#06B6D4',
-                            darkBg: '#0B0F17',
-                            cardBg: 'rgba(23, 31, 48, 0.7)',
-                            whatsapp: '#25D366'
-                        }
-                    },
-                    fontFamily: {
-                        sans: ['Plus Jakarta Sans', 'sans-serif'],
-                    },
-                    boxShadow: {
-                        'glow-gold': '0 0 25px -5px rgba(245, 158, 11, 0.4)',
-                        'glow-cyan': '0 0 25px -5px rgba(6, 182, 212, 0.4)',
-                        'glow-wa': '0 0 20px -3px rgba(37, 211, 102, 0.4)',
-                    }
-                }
-            }
-        }
-    </script>
-
     <style>
-        body {
-            background-color: #0B0F17;
-            background-image: 
-                radial-gradient(at 0% 0%, rgba(245, 158, 11, 0.12) 0px, transparent 50%),
-                radial-gradient(at 100% 100%, rgba(6, 182, 212, 0.12) 0px, transparent 50%),
-                radial-gradient(at 50% 50%, rgba(15, 23, 42, 0.5) 0px, transparent 100%);
-            background-attachment: fixed;
-            color: #F3F4F6;
+        :root {
+            --bg-color: #0b0f17;
+            --card-bg: rgba(22, 28, 45, 0.7);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --accent-gold: #e5b869;
+            --accent-gold-hover: #f3cc84;
+            --accent-green: #25d366;
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+            --input-bg: rgba(15, 23, 42, 0.6);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
             -webkit-tap-highlight-color: transparent;
         }
 
-        .glass-card {
-            background: rgba(23, 31, 48, 0.65);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 20px 12px;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(229, 184, 105, 0.05) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(37, 211, 102, 0.05) 0%, transparent 40%);
+            background-attachment: fixed;
         }
 
-        .glass-input {
-            background: rgba(15, 23, 42, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            color: #FFFFFF;
+        .container {
+            width: 100%;
+            max-width: 480px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            position: relative;
         }
 
-        .glass-input:focus {
-            border-color: #F59E0B;
+        /* Settings Gear Icon */
+        .settings-btn {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--card-border);
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+            transition: all 0.3s ease;
+        }
+        .settings-btn:hover {
+            color: var(--accent-gold);
+            border-color: var(--accent-gold);
+        }
+
+        /* Modal Settings */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(8px);
+            z-index: 100;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .modal-overlay.active {
+            display: flex;
+        }
+        .modal-card {
+            background: #111827;
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 24px;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.5);
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .modal-header h3 {
+            font-size: 1.2rem;
+            color: var(--text-main);
+        }
+        .close-modal {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.4rem;
+            cursor: pointer;
+        }
+
+        /* Profile Card */
+        .profile-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--card-border);
+            border-radius: 24px;
+            padding: 28px 20px;
+            text-align: center;
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+        }
+
+        .avatar-container {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 16px;
+        }
+        .avatar {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--accent-gold);
+            padding: 3px;
+        }
+        .verified-badge {
+            position: absolute;
+            bottom: 2px;
+            right: 2px;
+            background: var(--accent-gold);
+            color: #000;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            border: 2px solid var(--bg-color);
+        }
+
+        .profile-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 4px;
+            letter-spacing: -0.02em;
+        }
+
+        .profile-title {
+            font-size: 0.9rem;
+            color: var(--accent-gold);
+            font-weight: 600;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .profile-location {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            margin-bottom: 16px;
+        }
+
+        .profile-bio {
+            font-size: 0.9rem;
+            color: #d1d5db;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+
+        /* Quick Action Buttons */
+        .social-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .social-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px;
+            border-radius: 14px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.88rem;
+            transition: all 0.2s ease;
+        }
+
+        .btn-wa {
+            background: rgba(37, 211, 102, 0.15);
+            color: #25d366;
+            border: 1px solid rgba(37, 211, 102, 0.3);
+        }
+        .btn-wa:hover {
+            background: #25d366;
+            color: #000;
+        }
+
+        .btn-ig {
+            background: rgba(225, 48, 108, 0.15);
+            color: #fd5949;
+            border: 1px solid rgba(225, 48, 108, 0.3);
+        }
+        .btn-ig:hover {
+            background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+            color: #fff;
+        }
+
+        /* Features / Services */
+        .section-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .section-title i {
+            color: var(--accent-gold);
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .service-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 16px;
+            transition: transform 0.2s;
+        }
+        .service-card:hover {
+            transform: translateY(-2px);
+        }
+        .service-icon {
+            font-size: 1.4rem;
+            color: var(--accent-gold);
+            margin-bottom: 8px;
+        }
+        .service-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 4px;
+        }
+        .service-desc {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            line-height: 1.3;
+        }
+
+        /* Form Card */
+        .form-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--card-border);
+            border-radius: 24px;
+            padding: 24px;
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+        .form-label {
+            display: block;
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: #d1d5db;
+            margin-bottom: 6px;
+        }
+        .form-control {
+            width: 100%;
+            background: var(--input-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 12px 14px;
+            color: #fff;
+            font-size: 0.9rem;
             outline: none;
-            box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.2);
+            transition: border-color 0.2s;
+        }
+        .form-control:focus {
+            border-color: var(--accent-gold);
+        }
+        select.form-control {
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%9ca3af' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            background-size: 16px;
         }
 
-        /* Hide scrollbar for clean UI */
-        .no-scrollbar::-webkit-scrollbar {
+        .submit-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #e5b869 0%, #c59743 100%);
+            color: #000;
+            font-weight: 700;
+            font-size: 1rem;
+            border: none;
+            border-radius: 14px;
+            padding: 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 15px rgba(229, 184, 105, 0.2);
+        }
+        .submit-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(229, 184, 105, 0.3);
+        }
+
+        /* FAQ Accordion */
+        .faq-item {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 14px;
+            margin-bottom: 8px;
+            overflow: hidden;
+        }
+        .faq-header {
+            padding: 14px 16px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: #fff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+        .faq-body {
+            padding: 0 16px 14px;
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            line-height: 1.4;
             display: none;
         }
-        .no-scrollbar {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
+        .faq-item.active .faq-body {
+            display: block;
+        }
+        .faq-item.active .faq-header i {
+            transform: rotate(180deg);
+            color: var(--accent-gold);
         }
 
-        /* Pulse animation for CTA badges */
-        @keyframes pulse-subtle {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.85; transform: scale(1.02); }
+        .footer {
+            text-align: center;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            padding: 10px 0 20px;
         }
-        .animate-pulse-subtle {
-            animation: pulse-subtle 3s infinite ease-in-out;
+
+        /* Custom Toast */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: #10b981;
+            color: #fff;
+            padding: 12px 24px;
+            border-radius: 30px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 200;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* Generated Msg Box */
+        .msg-preview-modal {
+            display: none;
+            flex-direction: column;
+            gap: 10px;
+            background: #1f2937;
+            border: 1px solid var(--card-border);
+            border-radius: 14px;
+            padding: 14px;
+            margin-top: 14px;
+        }
+        .msg-preview-text {
+            font-size: 0.8rem;
+            color: #9ca3af;
+            white-space: pre-wrap;
+            background: rgba(0,0,0,0.3);
+            padding: 10px;
+            border-radius: 8px;
+            max-height: 120px;
+            overflow-y: auto;
         }
     </style>
 </head>
-<body class="font-sans antialiased min-h-screen flex justify-center selection:bg-brand-gold selection:text-black">
+<body>
 
-    <!-- Container designed specifically for smartphone viewports -->
-    <main class="w-full max-w-md min-h-screen px-4 py-6 flex flex-col justify-between relative overflow-x-hidden">
+    <div class="container">
+        <!-- Кнопка настроек для владельца сайта -->
+        <button class="settings-btn" onclick="openSettings()" title="Настройки сайта">
+            <i class="fa-solid fa-gear"></i>
+        </button>
 
-        <!-- Header / Profile Section -->
-        <header class="text-center flex flex-col items-center relative z-10">
-            
-            <!-- Quick Settings Button (For Gasan to set his WhatsApp) -->
-            <button onclick="toggleModal('settingsModal')" class="absolute right-0 top-0 text-xs bg-slate-800/80 hover:bg-slate-700 text-slate-300 p-2 rounded-full border border-slate-700 transition" title="Настройка контактов">
-                <i class="fa-solid fa-gear"></i>
-            </button>
-
-            <!-- Deployment Guide Button -->
-            <button onclick="toggleModal('deployModal')" class="absolute left-0 top-0 text-xs bg-brand-gold/10 hover:bg-brand-gold/20 text-brand-gold p-2 rounded-full border border-brand-gold/30 transition flex items-center gap-1">
-                <i class="fa-solid fa-rocket"></i>
-                <span class="text-[10px] font-semibold pr-1">Как запустить</span>
-            </button>
-
-            <!-- Profile Avatar with Status Ring -->
-            <div class="relative mt-4 mb-3">
-                <div class="w-28 h-28 rounded-full p-1 bg-gradient-to-tr from-brand-gold via-amber-200 to-brand-cyan shadow-glow-gold">
-                    <div class="w-full h-full rounded-full overflow-hidden bg-slate-900 flex items-center justify-center relative">
-                        <!-- Avatar Placeholder or Image -->
-                        <img id="avatarImage" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=400" alt="Гасан Байер" class="w-full h-full object-cover">
-                    </div>
-                </div>
-                <!-- Live Online Badge -->
-                <div class="absolute bottom-1 right-1 bg-slate-900/90 rounded-full p-1 border border-emerald-500/50 flex items-center gap-1.5 px-2.5 py-0.5 text-[11px] text-emerald-400 font-medium shadow-md">
-                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
-                    <span>В Гуанчжоу</span>
-                </div>
+        <!-- Главный профиль -->
+        <div class="profile-card">
+            <div class="avatar-container">
+                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80" alt="Gasan" id="profileImg" class="avatar">
+                <div class="verified-badge"><i class="fa-solid fa-check"></i></div>
             </div>
+            <h1 class="profile-name">Gasan</h1>
+            <div class="profile-title">Байер & Sourcing Agent в Китае</div>
+            <div class="profile-location">
+                <i class="fa-solid fa-location-dot"></i> Гуанчжоу, Китай ➔ СНГ, Европа & Весь мир
+            </div>
+            <p class="profile-bio">
+                Прямые закупки с фабрик Китая без посредников. Одежда, электроника, автозапчасти, оборудование. Проверка качества и экспресс-доставка.
+            </p>
 
-            <!-- Name and Badge -->
-            <h1 class="text-2xl font-extrabold text-white tracking-tight flex items-center gap-2 justify-center">
-                Гасан | Байер в Китае 
-                <span class="text-xl">🇨🇳</span>
-            </h1>
-
-            <div class="mt-1.5 flex items-center gap-2">
-                <a href="https://instagram.com/gasinchina" target="_blank" class="text-xs text-brand-cyan hover:underline font-semibold flex items-center gap-1 bg-brand-cyan/10 px-2.5 py-1 rounded-full border border-brand-cyan/20">
-                    <i class="fa-brands fa-instagram text-sm"></i> @gasinchina
+            <div class="social-grid">
+                <a href="#" id="directWaBtn" target="_blank" class="social-btn btn-wa">
+                    <i class="fa-brands fa-whatsapp"></i> Написать в WhatsApp
+                </a>
+                <a href="https://instagram.com/gasinchina" id="directIgBtn" target="_blank" class="social-btn btn-ig">
+                    <i class="fa-brands fa-instagram"></i> Instagram
                 </a>
             </div>
+        </div>
 
-            <!-- Tagline -->
-            <p class="text-slate-300 text-xs mt-3 leading-relaxed px-2 font-normal">
-                Поиск, профессиональный выкуп и доставка товаров из Китая по фабричным ценам в <strong class="text-amber-300 font-medium">СНГ и Азербайджан</strong>.
-            </p>
-        </header>
-
-        <!-- Highlights Grid -->
-        <section class="grid grid-cols-2 gap-2.5 my-6 z-10">
-            <div class="glass-card p-3 rounded-2xl flex items-center gap-3 border border-white/5">
-                <div class="w-9 h-9 rounded-xl bg-amber-500/10 text-brand-gold flex items-center justify-center shrink-0">
-                    <i class="fa-solid fa-location-dot"></i>
+        <!-- Услуги -->
+        <div>
+            <div class="section-title">
+                <i class="fa-solid fa-briefcase"></i> Чем я могу помочь
+            </div>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon"><i class="fa-solid fa-magnifying-glass-dollar"></i></div>
+                    <div class="service-title">Поиск фабрик</div>
+                    <div class="service-desc">Поиск лучших производителей и переговоры о минимальной цене.</div>
                 </div>
-                <div>
-                    <p class="text-[10px] text-slate-400 font-medium">Локация</p>
-                    <p class="text-xs font-bold text-slate-100">Гуанчжоу / Шэньчжэнь</p>
+                <div class="service-card">
+                    <div class="service-icon"><i class="fa-solid fa-clipboard-check"></i></div>
+                    <div class="service-title">Проверка товара</div>
+                    <div class="service-desc">Детальный фото и видеоотчет перед отправкой с нашего склада.</div>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon"><i class="fa-solid fa-truck-fast"></i></div>
+                    <div class="service-title">Доставка под ключ</div>
+                    <div class="service-desc">Быстрое карго и официальное таможенное оформление в СНГ и Европу.</div>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon"><i class="fa-solid fa-handshake"></i></div>
+                    <div class="service-title">Выкуп 1688 / Taobao</div>
+                    <div class="service-desc">Оперативный выкуп позиций с китайских внутренних площадок.</div>
                 </div>
             </div>
+        </div>
 
-            <div class="glass-card p-3 rounded-2xl flex items-center gap-3 border border-white/5">
-                <div class="w-9 h-9 rounded-xl bg-cyan-500/10 text-brand-cyan flex items-center justify-center shrink-0">
-                    <i class="fa-solid fa-handshake"></i>
-                </div>
-                <div>
-                    <p class="text-[10px] text-slate-400 font-medium">Выкуп & Поиск</p>
-                    <p class="text-xs font-bold text-slate-100">Комиссия от 0%</p>
-                </div>
+        <!-- Форма заявки -->
+        <div class="form-card" id="order-form">
+            <div class="section-title" style="margin-bottom: 16px;">
+                <i class="fa-solid fa-paper-plane"></i> Оставить заявку на поиск / расчет
             </div>
-
-            <div class="glass-card p-3 rounded-2xl flex items-center gap-3 border border-white/5">
-                <div class="w-9 h-9 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center shrink-0">
-                    <i class="fa-solid fa-box-open"></i>
-                </div>
-                <div>
-                    <p class="text-[10px] text-slate-400 font-medium">Проверка качества</p>
-                    <p class="text-xs font-bold text-slate-100">Полный фотоотчёт</p>
-                </div>
-            </div>
-
-            <div class="glass-card p-3 rounded-2xl flex items-center gap-3 border border-white/5">
-                <div class="w-9 h-9 rounded-xl bg-purple-500/10 text-purple-400 flex items-center justify-center shrink-0">
-                    <i class="fa-solid fa-truck-fast"></i>
-                </div>
-                <div>
-                    <p class="text-[10px] text-slate-400 font-medium">Логистика</p>
-                    <p class="text-xs font-bold text-slate-100">Доставка «Под ключ»</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Application Form Section -->
-        <section class="glass-card rounded-3xl p-5 my-2 shadow-2xl relative z-10 border border-amber-500/20">
-            <div class="flex items-center gap-2 mb-4">
-                <div class="w-2.5 h-2.5 rounded-full bg-brand-gold animate-pulse"></div>
-                <h2 class="text-base font-bold text-white tracking-wide">Оставить заявку на поиск</h2>
-            </div>
-
-            <form id="orderForm" onsubmit="handleFormSubmit(event)" class="space-y-3.5">
-                <!-- Name Field -->
-                <div>
-                    <label class="block text-[11px] text-slate-300 font-medium mb-1">Ваше имя *</label>
-                    <input type="text" id="clientName" required placeholder="Например: Орхан или Александр" class="w-full glass-input px-3.5 py-2.5 rounded-xl text-xs transition">
+            <form id="leadForm" onsubmit="handleFormSubmit(event)">
+                <div class="form-group">
+                    <label class="form-label">Ваше имя *</label>
+                    <input type="text" id="clientName" class="form-control" placeholder="Иван" required>
                 </div>
 
-                <!-- Phone / WhatsApp Field -->
-                <div>
-                    <label class="block text-[11px] text-slate-300 font-medium mb-1">Телефон / WhatsApp *</label>
-                    <div class="flex gap-2">
-                        <select id="countryCode" class="glass-input px-2 py-2.5 rounded-xl text-xs w-28 text-slate-200">
-                            <option value="+994">🇦🇿 +994</option>
-                            <option value="+7" selected>🇷🇺 +7 (РФ)</option>
-                            <option value="+7">🇰🇿 +7 (КЗ)</option>
-                            <option value="+996">🇰🇬 +996</option>
-                            <option value="+998">🇺🇿 +998</option>
-                            <option value="+375">🇧🇾 +375</option>
-                            <option value="+995">🇬🇪 +995</option>
-                        </select>
-                        <input type="tel" id="clientPhone" required placeholder="900 000-00-00" class="w-full glass-input px-3.5 py-2.5 rounded-xl text-xs transition">
-                    </div>
-                </div>
-
-                <!-- Product Category Select -->
-                <div>
-                    <label class="block text-[11px] text-slate-300 font-medium mb-1">Категория товара *</label>
-                    <select id="productCategory" required class="w-full glass-input px-3.5 py-2.5 rounded-xl text-xs text-slate-200">
-                        <option value="Одежда и Обувь">👕 Одежда / Обувь / Аксессуары</option>
-                        <option value="Электроника и Гаджеты">📱 Электроника и Гаджеты</option>
-                        <option value="Автозапчасти">🚗 Автозапчасти / Аксессуары</option>
-                        <option value="Оборудование и Станки">🏭 Оборудование / Инструменты</option>
-                        <option value="Копии брендов премиум">💎 Бренд копии (1:1 Премиум)</option>
-                        <option value="Товары для маркетплейсов">📦 Товары для Wildberries/Ozon</option>
-                        <option value="Другое">❓ Другое (указать в описании)</option>
+                <div class="form-group">
+                    <label class="form-label">Категория товара *</label>
+                    <select id="productCategory" class="form-control" required>
+                        <option value="" disabled selected>Выберите категорию...</option>
+                        <option value="Одежда и Обувь">Одежда, обувь, текстиль</option>
+                        <option value="Автозапчасти">Автозапчасти и аксессуары</option>
+                        <option value="Электроника">Электроника и гаджеты</option>
+                        <option value="Оборудование">Коммерческое оборудование / станки</option>
+                        <option value="Мебель и декор">Мебель и товары для дома</option>
+                        <option value="Другое">Другая категория</option>
                     </select>
                 </div>
 
-                <!-- Product Description / Details -->
-                <div>
-                    <label class="block text-[11px] text-slate-300 font-medium mb-1">Описание, название или ссылка на фото</label>
-                    <textarea id="productDetails" rows="3" placeholder="Укажите количество, модель, желаемую цену или вставьте ссылку на 1688 / Taobao / Poizon..." class="w-full glass-input px-3.5 py-2.5 rounded-xl text-xs transition resize-none"></textarea>
+                <div class="form-group">
+                    <label class="form-label">Страна и город назначения *</label>
+                    <input type="text" id="destination" class="form-control" placeholder="Например: Москва, Алматы, Берлин" required>
                 </div>
 
-                <!-- Destination City & Delivery Choice -->
-                <div>
-                    <label class="block text-[11px] text-slate-300 font-medium mb-1">Город назначения и Страна *</label>
-                    <input type="text" id="destinationCity" required placeholder="Например: Баку, Москва, Алматы..." class="w-full glass-input px-3.5 py-2.5 rounded-xl text-xs transition">
+                <div class="form-group">
+                    <label class="form-label">Ориентировочный бюджет или объем</label>
+                    <input type="text" id="budget" class="form-control" placeholder="Например: $2,000 или 100 шт.">
                 </div>
 
-                <!-- Submit Button to WhatsApp -->
-                <button type="submit" class="w-full py-3.5 px-4 rounded-xl bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700 text-white font-bold text-xs shadow-glow-wa transition flex items-center justify-center gap-2 transform active:scale-95 cursor-pointer mt-2">
-                    <i class="fa-brands fa-whatsapp text-lg"></i>
-                    <span>ОТПРАВИТЬ ЗАЯВКУ В WHATSAPP</span>
+                <div class="form-group">
+                    <label class="form-label">Ссылка на фото товара / Описание</label>
+                    <textarea id="productDetails" class="form-control" rows="3" placeholder="Вставьте ссылку на фото или опишите, что конкретно нужно найти..."></textarea>
+                </div>
+
+                <button type="submit" class="submit-btn">
+                    <i class="fa-brands fa-whatsapp" style="font-size: 1.2rem;"></i> Отправить заявку в WhatsApp
                 </button>
             </form>
-            <p class="text-[10px] text-slate-400 text-center mt-2.5">
-                ⚡ Нажимая кнопку, Вы откроете прямой чат со мной в WhatsApp с уже заполненными данными.
-            </p>
-        </section>
 
-        <!-- Quick Action Buttons -->
-        <section class="space-y-3 my-4 z-10">
-            <a id="directWaBtn" href="https://wa.me/8613000000000" target="_blank" class="w-full py-3 px-4 glass-card hover:bg-slate-800/80 rounded-2xl flex items-center justify-between group transition border border-emerald-500/30">
-                <div class="flex items-center gap-3">
-                    <div class="w-8 h-8 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-base">
-                        <i class="fa-brands fa-whatsapp"></i>
-                    </div>
-                    <span class="text-xs font-semibold text-white">Просто написать в WhatsApp</span>
-                </div>
-                <i class="fa-solid fa-chevron-right text-xs text-slate-500 group-hover:translate-x-1 transition"></i>
-            </a>
-
-            <a href="https://instagram.com/gasinchina" target="_blank" class="w-full py-3 px-4 glass-card hover:bg-slate-800/80 rounded-2xl flex items-center justify-between group transition border border-pink-500/20">
-                <div class="flex items-center gap-3">
-                    <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-amber-500 via-rose-500 to-purple-600 text-white flex items-center justify-center text-sm">
-                        <i class="fa-brands fa-instagram"></i>
-                    </div>
-                    <span class="text-xs font-semibold text-white">Мой Instagram @gasinchina</span>
-                </div>
-                <i class="fa-solid fa-chevron-right text-xs text-slate-500 group-hover:translate-x-1 transition"></i>
-            </a>
-        </section>
-
-        <!-- FAQ Accordion Section -->
-        <section class="glass-card rounded-3xl p-5 my-2 z-10 border border-slate-800">
-            <h3 class="text-xs font-bold text-slate-200 uppercase tracking-wider mb-3 flex items-center gap-2">
-                <i class="fa-solid fa-circle-question text-brand-gold"></i>
-                Часто задаваемые вопросы (FAQ)
-            </h3>
-
-            <div class="space-y-2">
-                <!-- FAQ Item 1 -->
-                <div class="border-b border-slate-800/80 pb-2">
-                    <button onclick="toggleFaq('faq1')" class="w-full text-left flex justify-between items-center py-1 text-xs font-medium text-slate-200 hover:text-brand-gold transition">
-                        <span>Как происходит оплата за товар?</span>
-                        <i id="faq1-icon" class="fa-solid fa-plus text-[10px] text-slate-400"></i>
-                    </button>
-                    <div id="faq1" class="hidden text-[11px] text-slate-400 pt-1.5 leading-relaxed">
-                        Принимаем оплату в USDT, рублях (переводом на карту), манатах или наличными в Гуанчжоу. Сначала вы оплачиваете стоимость товара, а доставка оплачивается по прибытии груза.
-                    </div>
-                </div>
-
-                <!-- FAQ Item 2 -->
-                <div class="border-b border-slate-800/80 pb-2">
-                    <button onclick="toggleFaq('faq2')" class="w-full text-left flex justify-between items-center py-1 text-xs font-medium text-slate-200 hover:text-brand-gold transition">
-                        <span>Как проверяется качество?</span>
-                        <i id="faq2-icon" class="fa-solid fa-plus text-[10px] text-slate-400"></i>
-                    </button>
-                    <div id="faq2" class="hidden text-[11px] text-slate-400 pt-1.5 leading-relaxed">
-                        Все товары поступают на наш склад в Гуанчжоу. Мы вскрываем коробки, проверяем брак, размеры, цвет и соответствие. Заказчик получает фото и видеоотчет до отправки.
-                    </div>
-                </div>
-
-                <!-- FAQ Item 3 -->
-                <div>
-                    <button onclick="toggleFaq('faq3')" class="w-full text-left flex justify-between items-center py-1 text-xs font-medium text-slate-200 hover:text-brand-gold transition">
-                        <span>Каковы сроки и стоимость доставки?</span>
-                        <i id="faq3-icon" class="fa-solid fa-plus text-[10px] text-slate-400"></i>
-                    </button>
-                    <div id="faq3" class="hidden text-[11px] text-slate-400 pt-1.5 leading-relaxed">
-                        Авиадоставка: 5-10 дней. Авто / Карго: 12-20 дней в зависимости от страны (Азербайджан, РФ, Казахстан и др.). Стоимость рассчитывается за кг или куб.
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Footer -->
-        <footer class="mt-6 text-center text-[10px] text-slate-400 z-10 space-y-1">
-            <p>© <span id="currentYear"></span> Gasan China Sourcing. Все права защищены.</p>
-            <p class="text-slate-400">Гуанчжоу, провинция Гуандун, Китай 🇨🇳</p>
-        </footer>
-
-        <!-- SETTINGS MODAL (Allows Gasan to quickly update WhatsApp Number) -->
-        <div id="settingsModal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
-            <div class="glass-card max-w-sm w-full rounded-3xl p-6 border border-brand-gold/30">
-                <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-sm font-bold text-white flex items-center gap-2">
-                        <i class="fa-solid fa-sliders text-brand-gold"></i> Настройка Вашего WhatsApp
-                    </h3>
-                    <button onclick="toggleModal('settingsModal')" class="text-slate-400 hover:text-white">
-                        <i class="fa-solid fa-xmark"></i>
-                    </button>
-                </div>
-                
-                <p class="text-xs text-slate-300 mb-4">
-                    Укажите ваш международный номер WhatsApp без знака "+" или пробелов, чтобы заявки клиентов приходили вам.
-                </p>
-
-                <div class="space-y-3">
-                    <div>
-                        <label class="block text-[11px] text-slate-400 mb-1">Ваш Номер WhatsApp (для приема заявок)</label>
-                        <input type="text" id="gasanPhoneInput" placeholder="Например: 8613000000000 или 994500000000" class="w-full glass-input px-3 py-2 rounded-xl text-xs">
-                        <span class="text-[10px] text-slate-400 mt-1 block">Указывайте с кодом страны (например, 86... для Китая, 994... для Азербайджана, 7... для РФ)</span>
-                    </div>
-
-                    <button onclick="saveSettings()" class="w-full py-2.5 bg-brand-gold text-black font-bold text-xs rounded-xl hover:bg-brand-goldHover transition">
-                        Сохранить настройки
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- DEPLOYMENT GUIDE MODAL -->
-        <div id="deployModal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
-            <div class="glass-card max-w-sm w-full rounded-3xl p-6 border border-cyan-500/30 max-h-[85vh] overflow-y-auto no-scrollbar">
-                <div class="flex justify-between items-center mb-3">
-                    <h3 class="text-sm font-bold text-white flex items-center gap-2">
-                        <i class="fa-solid fa-rocket text-brand-cyan"></i> Инструкция: Как запустить
-                    </h3>
-                    <button onclick="toggleModal('deployModal')" class="text-slate-400 hover:text-white">
-                        <i class="fa-solid fa-xmark"></i>
-                    </button>
-                </div>
-
-                <div class="space-y-3 text-xs text-slate-300">
-                    <p class="leading-relaxed">
-                        Вы можете опубликовать этот сайт абсолютно <strong class="text-amber-400">БЕСПЛАТНО</strong> за 3 минуты и вставить ссылку в Instagram Bio.
-                    </p>
-
-                    <div class="bg-slate-900/80 p-3 rounded-xl border border-slate-800 space-y-2">
-                        <p class="font-bold text-brand-cyan">Вариант 1: GitHub Pages (Самый популярный)</p>
-                        <ol class="list-decimal list-inside text-[11px] space-y-1 text-slate-300">
-                            <li>Зарегистрируйтесь на <a href="https://github.com" target="_blank" class="text-amber-400 underline">github.com</a></li>
-                            <li>Создайте новый репозиторий (например, <code class="text-cyan-300">gasan-china</code>)</li>
-                            <li>Загрузите этот файл под именем <code class="text-amber-300">index.html</code></li>
-                            <li>В настройках (Settings -> Pages) включите GitHub Pages</li>
-                            <li>Готово! Ваша ссылка: <code class="text-emerald-400">username.github.io/gasan-china</code></li>
-                        </ol>
-                    </div>
-
-                    <div class="bg-slate-900/80 p-3 rounded-xl border border-slate-800 space-y-2">
-                        <p class="font-bold text-brand-cyan">Вариант 2: Netlify Drop (За 1 минуту)</p>
-                        <ol class="list-decimal list-inside text-[11px] space-y-1 text-slate-300">
-                            <li>Зайдите на <a href="https://app.netlify.com/drop" target="_blank" class="text-amber-400 underline">app.netlify.com/drop</a></li>
-                            <li>Перетащите папку с файлом <code class="text-amber-300">index.html</code></li>
-                            <li>Получите мгновенную готовую ссылку!</li>
-                        </ol>
-                    </div>
-
-                    <div class="bg-amber-500/10 p-2.5 rounded-xl border border-amber-500/20 text-[11px] text-amber-200">
-                        💡 <strong>Совет для Instagram:</strong> Вставьте полученную ссылку в профиль Instagram: <br><em>Редактировать профиль ➔ Ссылки ➔ Добавить внешнюю ссылку</em>.
-                    </div>
-                </div>
-
-                <button onclick="toggleModal('deployModal')" class="w-full mt-4 py-2 bg-slate-800 text-slate-200 font-semibold text-xs rounded-xl hover:bg-slate-700">
-                    Понятно, закрыть
+            <div id="msgPreviewBox" class="msg-preview-modal">
+                <div style="font-size: 0.8rem; color: #fff; font-weight: 600;">Текст заявки сформирован:</div>
+                <div id="msgPreviewText" class="msg-preview-text"></div>
+                <button class="submit-btn" style="background: #25d366; color: #000; padding: 10px;" onclick="copyAndRedirect()">
+                    <i class="fa-regular fa-copy"></i> Скопировать и открыть WhatsApp
                 </button>
             </div>
         </div>
 
-    </main>
+        <!-- FAQ -->
+        <div>
+            <div class="section-title">
+                <i class="fa-circle-question fa-solid"></i> Частые вопросы
+            </div>
+            
+            <div class="faq-item" onclick="toggleFaq(this)">
+                <div class="faq-header">
+                    <span>Как происходят взаиморасчеты?</span>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
+                <div class="faq-body">
+                    Мы принимаем оплату удобными международными способами, через банковские переводы и китайские платежные системы (Alipay / WeChat).
+                </div>
+            </div>
+
+            <div class="faq-item" onclick="toggleFaq(this)">
+                <div class="faq-header">
+                    <span>Каковы сроки доставки?</span>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
+                <div class="faq-body">
+                    Авто-доставка в страны СНГ занимает от 12 до 20 дней. Экспресс-авиа доставка — 5-9 дней. В Европу сроки зависят от выбранного логистического маршрута.
+                </div>
+            </div>
+
+            <div class="faq-item" onclick="toggleFaq(this)">
+                <div class="faq-header">
+                    <span>Какая минимальная партия для заказа?</span>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
+                <div class="faq-body">
+                    Мы работаем как со средним бизнесом, так и с оптовыми партиями. Минимальная сумма заказа для поиска и выкупа обычно начинается от $500–1000.
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            © <span id="year"></span> Gasan China Sourcing. Guangzhou, China.<br>
+            All rights reserved.
+        </div>
+    </div>
+
+    <!-- Модальное окно настроек байера -->
+    <div class="modal-overlay" id="settingsModal">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3><i class="fa-solid fa-sliders"></i> Настройки профиля</h3>
+                <button class="close-modal" onclick="closeSettings()">&times;</button>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Номер WhatsApp Business (без знака +)</label>
+                <input type="text" id="settingPhone" class="form-control" placeholder="Например: 8613800000000 или 994500000000">
+                <span style="font-size: 0.72rem; color: var(--text-muted); display: block; margin-top: 4px;">Указывайте номер строго с кодом страны, без плюсов и дефисов.</span>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Загрузить фото профиля с устройства</label>
+                <input type="file" id="settingFileImg" class="form-control" accept="image/*" onchange="uploadLocalPhoto(event)">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Или вставьте ссылку на аватарку (URL)</label>
+                <input type="text" id="settingPhotoUrl" class="form-control" placeholder="https://...">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Ссылка на ваш Instagram</label>
+                <input type="text" id="settingIg" class="form-control" placeholder="https://instagram.com/gasinchina">
+            </div>
+            <button class="submit-btn" onclick="saveSettings()">Сохранить настройки</button>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <i class="fa-solid fa-circle-check"></i> <span id="toastMsg">Успешно сохранено!</span>
+    </div>
 
     <script>
-        // Default target WhatsApp Business number for Gasan (Format: Country Code + Phone without +)
-        let GASAN_WHATSAPP_NUMBER = "8613000000000"; 
+        // Инициализация при загрузке
+        document.getElementById('year').textContent = new Date().getFullYear();
 
-        // Set current year in footer
-        document.getElementById('currentYear').textContent = new Date().getFullYear();
+        let currentPhone = localStorage.getItem('gasan_wa_phone') || '8613000000000';
+        let currentIg = localStorage.getItem('gasan_ig') || 'https://instagram.com/gasinchina';
+        let currentPhoto = localStorage.getItem('gasan_photo') || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80';
+        let generatedWaUrl = '';
+        let generatedText = '';
 
-        // Load saved settings if exist
-        window.addEventListener('DOMContentLoaded', () => {
-            const savedPhone = localStorage.getItem('gasan_wa_number');
-            if (savedPhone) {
-                GASAN_WHATSAPP_NUMBER = savedPhone;
-            }
-            document.getElementById('gasanPhoneInput').value = GASAN_WHATSAPP_NUMBER;
-            updateDirectWaLink();
-        });
+        function applySettings() {
+            document.getElementById('directWaBtn').href = `https://wa.me/${currentPhone}`;
+            document.getElementById('directIgBtn').href = currentIg;
+            document.getElementById('profileImg').src = currentPhoto;
+        }
+        applySettings();
 
-        // Function to update direct WA link
-        function updateDirectWaLink() {
-            const cleanNumber = GASAN_WHATSAPP_NUMBER.replace(/[^0-9]/g, '');
-            document.getElementById('directWaBtn').href = `https://wa.me/${cleanNumber}?text=${encodeURIComponent('Здравствуйте, Гасан! Хочу проконсультироваться по товарам из Китая.')}`;
+        // Открытие/закрытие настроек
+        function openSettings() {
+            document.getElementById('settingPhone').value = currentPhone;
+            document.getElementById('settingIg').value = currentIg;
+            document.getElementById('settingPhotoUrl').value = currentPhoto;
+            document.getElementById('settingsModal').classList.add('active');
         }
 
-        // Save Settings Modal Logic
+        function closeSettings() {
+            document.getElementById('settingsModal').classList.remove('active');
+        }
+
+        // Загрузка фото с локального диска
+        function uploadLocalPhoto(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    currentPhoto = e.target.result;
+                    document.getElementById('settingPhotoUrl').value = '';
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
         function saveSettings() {
-            const inputVal = document.getElementById('gasanPhoneInput').value.trim();
-            if (inputVal) {
-                GASAN_WHATSAPP_NUMBER = inputVal.replace(/[^0-9]/g, '');
-                localStorage.setItem('gasan_wa_number', GASAN_WHATSAPP_NUMBER);
-                updateDirectWaLink();
-                toggleModal('settingsModal');
-                alert('Номер WhatsApp успешно обновлен!');
-            } else {
-                alert('Пожалуйста, введите корректный номер.');
+            const phoneInput = document.getElementById('settingPhone').value.replace(/[^0-9]/g, '');
+            const igInput = document.getElementById('settingIg').value.trim();
+            const photoUrlInput = document.getElementById('settingPhotoUrl').value.trim();
+
+            if (phoneInput) {
+                currentPhone = phoneInput;
+                localStorage.setItem('gasan_wa_phone', currentPhone);
             }
+            if (igInput) {
+                currentIg = igInput;
+                localStorage.setItem('gasan_ig', currentIg);
+            }
+            if (photoUrlInput) {
+                currentPhoto = photoUrlInput;
+                localStorage.setItem('gasan_photo', currentPhoto);
+            } else if (currentPhoto) {
+                localStorage.setItem('gasan_photo', currentPhoto);
+            }
+
+            applySettings();
+            closeSettings();
+            showToast('Настройки успешно обновлены!');
         }
 
-        // Toggle Modals
-        function toggleModal(modalId) {
-            const modal = document.getElementById(modalId);
-            if (modal) {
-                modal.classList.toggle('hidden');
-            }
+        // Переключение FAQ
+        function toggleFaq(element) {
+            element.classList.toggle('active');
         }
 
-        // Toggle FAQ Accordions
-        function toggleFaq(faqId) {
-            const faqContent = document.getElementById(faqId);
-            const faqIcon = document.getElementById(`${faqId}-icon`);
-            
-            if (faqContent.classList.contains('hidden')) {
-                faqContent.classList.remove('hidden');
-                faqIcon.classList.remove('fa-plus');
-                faqIcon.classList.add('fa-minus');
-            } else {
-                faqContent.classList.add('hidden');
-                faqIcon.classList.remove('fa-minus');
-                faqIcon.classList.add('fa-plus');
-            }
+        // Уведомление
+        function showToast(text) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastMsg').textContent = text;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
         }
 
-        // Handle Application Form Submission
-        function handleFormSubmit(event) {
-            event.preventDefault();
+        // Обработка формы
+        function handleFormSubmit(e) {
+            e.preventDefault();
 
-            // Collect Form Values
             const name = document.getElementById('clientName').value.trim();
-            const countryCode = document.getElementById('countryCode').value;
-            const phone = document.getElementById('clientPhone').value.trim();
             const category = document.getElementById('productCategory').value;
-            const details = document.getElementById('productDetails').value.trim() || 'Не указано';
-            const city = document.getElementById('destinationCity').value.trim();
+            const dest = document.getElementById('destination').value.trim();
+            const budget = document.getElementById('budget').value.trim() || 'Не указан';
+            const details = document.getElementById('productDetails').value.trim() || 'Без дополнительного описания';
 
-            const fullPhone = `${countryCode} ${phone}`;
+            generatedText = `Здравствуйте, Гасан!\n\n` +
+                            `Заявка на поиск и расчет товара с сайта:\n` +
+                            `👤 Имя: ${name}\n` +
+                            `📦 Категория: ${category}\n` +
+                            `📍 Направление доставки: ${dest}\n` +
+                            `💰 Бюджет/Объем: ${budget}\n` +
+                            `📝 Описание/Ссылка: ${details}`;
 
-            // Format Message for WhatsApp Business
-            const formattedMessage = 
-`🇨🇳 *НОВАЯ ЗАЯВКА НА ПОИСК ТОВАРА*
+            const encodedText = encodeURIComponent(generatedText);
+            generatedWaUrl = `https://wa.me/${currentPhone}?text=${encodedText}`;
 
-👤 *Имя клиента:* ${name}
-📞 *Контакты:* ${fullPhone}
-📦 *Категория:* ${category}
-🏙️ *Город назначения:* ${city}
+            // Отобразить блок предосмотра
+            document.getElementById('msgPreviewText').textContent = generatedText;
+            document.getElementById('msgPreviewBox').style.display = 'flex';
 
-📝 *Детали / Ссылки / Описание:*
-${details}
+            // Попытаться сразу перенаправить
+            window.open(generatedWaUrl, '_blank');
+        }
 
----
-*Отправлено с вашего сайта-визитки*`;
-
-            // Clean recipient phone number
-            const targetNumber = GASAN_WHATSAPP_NUMBER.replace(/[^0-9]/g, '');
-
-            // Generate WhatsApp URL
-            const encodedText = encodeURIComponent(formattedMessage);
-            const waUrl = `https://api.whatsapp.com/send?phone=${targetNumber}&text=${encodedText}`;
-
-            // Redirect to WhatsApp
-            window.open(waUrl, '_blank');
+        function copyAndRedirect() {
+            navigator.clipboard.writeText(generatedText).then(() => {
+                showToast('Текст скопирован в буфер!');
+                setTimeout(() => {
+                    window.open(`https://wa.me/${currentPhone}`, '_blank');
+                }, 500);
+            }).catch(() => {
+                window.open(generatedWaUrl, '_blank');
+            });
         }
     </script>
 </body>
